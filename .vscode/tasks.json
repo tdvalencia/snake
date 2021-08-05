@@ -1,0 +1,81 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Debug",
+			"command": "C:\\mingw64\\bin\\gcc.exe",
+			"args": [
+				"-c",
+				"src/*.c",
+			 	"-g",
+				"-Wall",
+				"-m64",
+				"-I",
+				"include",
+				"-I",
+				"C:/SDL2-w64/include",
+				"&&",
+				"gcc",
+				"*.o",
+				"-o",
+				"bin/debug/main",
+				"-L",
+				"C:/SDL2-w64/lib",
+				"-lmingw32",
+				"-lSDL2main",
+				"-lSDL2",
+				"&&",
+				"start",
+				"bin/debug/main"
+			],
+			"options": {
+				"cwd": "${fileDirname}/.."
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\mingw64\\bin\\g++.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Release",
+			"command": "C:\\mingw64\\bin\\gcc.exe",
+			"args": [
+				"-c",
+				"src/*.c",
+			 	"-O3",
+				"-Wall",
+				"-m64",
+				"-I",
+				"include",
+				"-I",
+				"C:/SDL2-w64/include",
+				"&&",
+				"gcc",
+				"*.o",
+				"-o",
+				"bin/release/main",
+				"-s",
+				"-L",
+				"C:/SDL2-w64/lib",
+				"-lmingw32",
+				"-lSDL2main",
+				"-lSDL2",
+				"-lSDL2_image",
+				"&&",
+				"start",
+				"bin/release/main"
+			],
+			"options": {
+				"cwd": "${fileDirname}/.."
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\mingw64\\bin\\g++.exe"
+		}
+	]
+}
