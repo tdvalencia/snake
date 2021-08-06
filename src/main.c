@@ -45,7 +45,14 @@ int main(int argc, char *args[]) {
                         case SDLK_RIGHT:
                             dir = 'r';
                             break;
+                        case SDLK_SPACE:
+                            elongate(&s);
+                            break;
+                        default:
+                            break;
                     }
+                default:
+                    break;
             }
         }
 
@@ -57,7 +64,7 @@ int main(int argc, char *args[]) {
         SDL_RenderCopy(renderer, screen, NULL, NULL);
         SDL_RenderPresent(renderer);
 
-        SDL_Delay(95);
+        SDL_Delay(100);
     }
 
     close();
