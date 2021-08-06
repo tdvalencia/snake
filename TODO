@@ -1,5 +1,2 @@
-Calculate x and y for tail in elongate func of snake.c
-    Find direction of snake
-    Assign distance between tail and rest of body to x or y
-
-Make sure added tail spawns in proper location when moving
+Check snake/food, snake/border, and snake/snake collisions.
+Add food feature of making snake longer.

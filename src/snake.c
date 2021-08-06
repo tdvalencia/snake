@@ -15,57 +15,54 @@ snake init_snake(uint32_t *buffer, int start_x, int start_y) {
     return s;
 }
 
-void snake_move(snake *s, char dir) {
+// Updates position of the snake
+void snake_move(snake *head, char dir) {
 
-    snake *current = s;
-    snake *next = current->next;
+    snake copy = *head;
 
-    switch (dir)
-    {
+    // Updates position of the head
+    switch (dir) {
         case 'u':
-            s->y -= 8;
+            head->y -= 8;
             break;
         case 'd':
-            s->y += 8;
+            head->y += 8;
             break;
         case 'l':
-            s->x -= 8;
+            head->x -= 8;
             break;
         case 'r':
-            s->x += 8;
+            head->x += 8;
             break;
         default:
             break;
     }
 
-    while (next != NULL) {
-        next->x = current->x;
-        next->y = current->y;
+    // Updates positions of the snake body
+    while (head->next != NULL) {
+        // Set next body to the pos of ahead body
+        snake temp = *head->next;
+        head->next->x = copy.x;
+        head->next->y = copy.y;
 
-        current = current->next;
-        next = current->next;
+        // Reassign
+        copy = temp;
+        head = head->next;
     }
 }
 
+// Clears the screen and redraws all of the snake
 void draw_snake(uint32_t *buffer, snake *s) {
     clear_buffer(buffer);
-    if (s->size != 1) {
-        snake *current = s;
-        while (current->next != NULL) {
-            draw_rect(buffer, current->x, current->y, 10, 10);
-            current = current->next;
-        }
-    }
-    else {
-        draw_rect(buffer, s->x, s->y, 10, 10);
+    snake *current = s;
+    while (current != NULL) {
+        draw_rect(buffer, current->x, current->y, 7, 7);
+        current = current->next;
     }
 }
 
+// Creates a new body part of the snake.
 void elongate(snake *head) {
-
-    int x = head->x;
-    int y = head->y + 30;
-    head->size++;
 
     snake *tail = head;
     while (tail->next != NULL) {
@@ -73,14 +70,21 @@ void elongate(snake *head) {
     }
     
     tail->next = (snake *) malloc(sizeof(snake));
-    tail->next->x = x;
-    tail->next->y = y;
+    tail->next->x = 0;
+    tail->next->y = 0;
     tail->next->next = NULL;
-
-    printf("elongated. size: %d\n", head->size);
-    print_snake(tail);
+    head->size++;
 }
 
+// Iterates through entire snake and prints it out
 void print_snake(snake *s) {
-    printf("snake(%d, %d)\n", s->x, s->y);
+    snake *cur = s;
+    int i = 0;
+    printf("----snake----\n");
+    while (cur != NULL) {
+        printf("%d: %d %d\n", i, cur->x, cur->y);
+        i++;
+        cur = cur->next;
+    }
+    printf("-------------\n");
 }

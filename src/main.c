@@ -7,7 +7,6 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *screen = NULL;
-
 uint32_t *pixels = NULL;
 
 int init();
@@ -21,11 +20,13 @@ int main(int argc, char *args[]) {
 
     int quit = 0;
     snake s = init_snake(pixels, 320, 380);
-    char dir = '\0';
+    char dir = 'u';
 
+    // Gameplay loop
     while (quit == 0) {
         SDL_Event event;
 
+        // Input
         while (SDL_PollEvent(&event) != 0) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -45,9 +46,11 @@ int main(int argc, char *args[]) {
                         case SDLK_RIGHT:
                             dir = 'r';
                             break;
-                        case SDLK_SPACE:
+                        case SDLK_e:
                             elongate(&s);
                             break;
+                        case SDLK_RETURN:
+                            print_snake(&s);
                         default:
                             break;
                     }
@@ -59,11 +62,11 @@ int main(int argc, char *args[]) {
         snake_move(&s, dir);
         draw_snake(pixels, &s);
 
+        // Update screen for player
         SDL_UpdateTexture(screen, NULL, pixels, SCREEN_WIDTH * sizeof(Uint32));
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, screen, NULL, NULL);
         SDL_RenderPresent(renderer);
-
         SDL_Delay(100);
     }
 
@@ -72,6 +75,7 @@ int main(int argc, char *args[]) {
     return 0;
 }
 
+// Initializes SDL
 int init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not be initialized. SDL_Error: %s\n", SDL_GetError());
@@ -91,6 +95,7 @@ int init() {
     return 0;
 }
 
+// Closes SDL
 void close() {
     SDL_DestroyWindow(window);
     window = NULL;

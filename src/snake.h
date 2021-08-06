@@ -3,7 +3,6 @@
 #ifndef SNAKE_H_
 #define SNAKE_H_
 
-#include <SDL2/SDL.h>
 #include "render.h"
 
 typedef struct snake {

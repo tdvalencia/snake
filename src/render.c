@@ -1,6 +1,6 @@
-#include <SDL2/SDL.h>
 #include "render.h"
 
+// Makes a single pixel
 int draw_pixel(uint32_t *pixel_buffer, int x, int y, uint32_t color) {
 
     if (x < 0 || y < 0) {
@@ -17,6 +17,7 @@ int draw_pixel(uint32_t *pixel_buffer, int x, int y, uint32_t color) {
     return 0;
 }
 
+// Makes a "mega" pixel
 int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h) {
     for (int r = y; r < (y+h); r++) {
         for (int c = x; c < (x+w); c++) {
@@ -27,6 +28,7 @@ int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h) {
     return 0;
 }
 
+// Clears entire screen
 void clear_buffer(uint32_t *pixel_buffer) {
     for (int r = 0; r < SCREEN_HEIGHT; r++) {
         for (int c = 0; c < SCREEN_WIDTH; c++) {
