@@ -1,17 +1,20 @@
 #pragma once
-#include "physics.h"
+
+#ifndef SNAKE_H_
+#define SNAKE_H_
+
+#include <SDL2/SDL.h>
 #include "render.h"
 
-struct snake
-{
-    struct vector2 pos;
-    int size;
-    char dir;
-};
+typedef struct snake {
+    int x, y;
+    struct snake *next;
+} snake;
 
-void init_snake(uint32_t *pixel_buffer, int size);
-void move(struct vector2 *pos, char dir);
+snake init_snake(uint32_t *buffer, int start_x, int start_y);
+void snake_move(snake *s, char dir);
+void draw_snake(uint32_t *buffer, snake *s);
+void elongate(snake *s);
+void print_snake(snake *s);
 
-// void inc_size(uint32_t *pixel_buffer, snake *s, int *size);
-// int checkCollision(snake *s);
-// void turn(snake *s, vector2 *turnPoint);
+#endif
