@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL2/SDL.h>
+#include <stdint.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480

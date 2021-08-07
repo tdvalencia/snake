@@ -1,6 +1,3 @@
-#include <stdio.h>
-
-#include "render.h"
 #include "food.h"
 
 uint32_t f_colors[4] = {
@@ -14,6 +11,7 @@ food init_food(snake *s) {
     food f;
     f.x = rand() % (SCREEN_WIDTH - 50) + 25;
     f.y = rand() % (SCREEN_HEIGHT - 50) + 25;
+    f.side_length = 6;
     f.color = f_colors[rand() % 4];
 
     while (s != NULL) {
@@ -28,11 +26,14 @@ food init_food(snake *s) {
 }
 
 void draw_food(uint32_t *buffer, food *f) {
-    draw_rect(buffer, f->x, f->y, 5, 5, f->color);
+    draw_rect(buffer, f->x, f->y, f->side_length, f->side_length, f->color);
 }
 
-int check_collision(snake *s, food *f) {
-    if (s->x == f->x || s->y == f->y) {
+int touch_food(snake *s, food *f) {
+    if (f->x < s->x + s->side_length &&
+        f->x + f->side_length > s->x &&
+        f->y < s->y + s->side_length &&
+        f->y + f->side_length > s->y) {
         return 1;
     }
     return 0;

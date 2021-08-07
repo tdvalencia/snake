@@ -22,7 +22,7 @@ int main(int argc, char *args[]) {
 
     int quit = 0;
     char dir = 'u';
-    snake s = init_snake(pixels, 320, 380);
+    snake s = init_snake(pixels, 320, 340);
     food f = init_food(&s);
 
     // Gameplay loop
@@ -50,7 +50,7 @@ int main(int argc, char *args[]) {
                             dir = 'r';
                             break;
                         case SDLK_e:
-                            elongate(&s);
+                            elongate(&s, 1);
                             break;
                         case SDLK_p:
                             dir = '\0';
@@ -67,9 +67,13 @@ int main(int argc, char *args[]) {
             }
         }
 
-        if (check_collision(&s, &f) == 1) {
+        if (dead_collision(&s) == 1) {
+            dir = '\0';
+            printf("game over\n");
+        }
+        if (touch_food(&s, &f) == 1) {
             f = init_food(&s);
-            elongate(&s);
+            elongate(&s, 1);
         }
         snake_move(&s, dir);
         draw_screen(pixels, &s, &f);

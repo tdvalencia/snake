@@ -1,15 +1,14 @@
-#include <stdio.h>
-
 #include "snake.h"
-#include "render.h"
 
 snake init_snake(uint32_t *buffer, int start_x, int start_y) {
     snake s;
     s.x = start_x;
     s.y = start_y;
     s.size = 1;
+    s.side_length = 8;
     s.next = NULL;
 
+    elongate(&s, 2);
     draw_snake(buffer, &s);
 
     return s;
@@ -55,24 +54,49 @@ void snake_move(snake *head, char dir) {
 void draw_snake(uint32_t *buffer, snake *s) {
     snake *current = s;
     while (current != NULL) {
-        draw_rect(buffer, current->x, current->y, 8, 8, 0x38761D);
+        draw_rect(buffer, current->x, current->y, s->side_length, s->side_length, 0x38761D);
         current = current->next;
     }
 }
 
 // Creates a new body part of the snake.
-void elongate(snake *head) {
-
-    snake *tail = head;
-    while (tail->next != NULL) {
-        tail = tail->next;
+void elongate(snake *head, int n) {
+    for (int i = 0; i < n; i++) {
+        snake *tail = head;
+        while (tail->next != NULL) {
+            tail = tail->next;
+        }
+        
+        tail->next = (snake *) malloc(sizeof(snake));
+        tail->next->x = -5;
+        tail->next->y = -5;
+        tail->next->next = NULL;
+        head->size++;
     }
-    
-    tail->next = (snake *) malloc(sizeof(snake));
-    tail->next->x = -5;
-    tail->next->y = -5;
-    tail->next->next = NULL;
-    head->size++;
+    printf("score: %d\n", head->size);
+}
+
+int dead_collision(snake *s) {
+    if (SCREEN_WIDTH < s->x + s->side_length ||
+        SCREEN_HEIGHT < s->y + s->side_length ||
+        0 > s->x + s->side_length ||
+        0 > s->y + s->side_length) {
+        return 1;
+    }
+
+    snake copy = *s;
+    snake *n = s->next;
+
+    while (n != NULL) {
+        if (copy.x <= n->x + n->side_length &&
+            copy.x + copy.side_length > n->x &&
+            copy.y <= n->y + n->side_length &&
+            copy.y + copy.side_length > n->y) {
+            return 1;
+        }
+        n = n->next;
+    }
+    return 0;
 }
 
 // Iterates through entire snake and prints it out
