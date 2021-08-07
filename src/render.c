@@ -18,12 +18,13 @@ int draw_pixel(uint32_t *pixel_buffer, int x, int y, uint32_t color) {
 }
 
 // Makes a "mega" pixel
-int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h) {
+int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h, uint32_t color) {
     for (int r = y; r < (y+h); r++) {
         for (int c = x; c < (x+w); c++) {
-            draw_pixel(pixel_buffer, c, r, 0xffffffff);
+            draw_pixel(pixel_buffer, c, r, color);
         }
     }
+    draw_pixel(pixel_buffer, x, y, 0xffffff);
 
     return 0;
 }
@@ -32,7 +33,7 @@ int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h) {
 void clear_buffer(uint32_t *pixel_buffer) {
     for (int r = 0; r < SCREEN_HEIGHT; r++) {
         for (int c = 0; c < SCREEN_WIDTH; c++) {
-            draw_pixel(pixel_buffer, c, r, 0x00000000);
+            draw_pixel(pixel_buffer, c, r, 0x000000);
         }
     }
 }

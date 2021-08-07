@@ -3,12 +3,14 @@
 
 #include "render.h"
 #include "snake.h"
+#include "food.h"
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *screen = NULL;
 uint32_t *pixels = NULL;
 
+void draw_screen(uint32_t *buffer, snake *s, food *f);
 int init();
 void close();
 
@@ -19,8 +21,9 @@ int main(int argc, char *args[]) {
     }
 
     int quit = 0;
-    snake s = init_snake(pixels, 320, 380);
     char dir = 'u';
+    snake s = init_snake(pixels, 320, 380);
+    food f = init_food(&s);
 
     // Gameplay loop
     while (quit == 0) {
@@ -49,8 +52,13 @@ int main(int argc, char *args[]) {
                         case SDLK_e:
                             elongate(&s);
                             break;
-                        case SDLK_RETURN:
-                            print_snake(&s);
+                        case SDLK_p:
+                            dir = '\0';
+                            break;
+                        case SDLK_SPACE:
+                            f = init_food(&s);
+                            print_food(&f);
+                            break;
                         default:
                             break;
                     }
@@ -59,8 +67,12 @@ int main(int argc, char *args[]) {
             }
         }
 
+        if (check_collision(&s, &f) == 1) {
+            f = init_food(&s);
+            elongate(&s);
+        }
         snake_move(&s, dir);
-        draw_snake(pixels, &s);
+        draw_screen(pixels, &s, &f);
 
         // Update screen for player
         SDL_UpdateTexture(screen, NULL, pixels, SCREEN_WIDTH * sizeof(Uint32));
@@ -73,6 +85,12 @@ int main(int argc, char *args[]) {
     close();
 
     return 0;
+}
+
+void draw_screen(uint32_t *buffer, snake *s, food *f) {
+    clear_buffer(buffer);
+    draw_food(buffer, f);
+    draw_snake(buffer, s);
 }
 
 // Initializes SDL

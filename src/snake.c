@@ -53,10 +53,9 @@ void snake_move(snake *head, char dir) {
 
 // Clears the screen and redraws all of the snake
 void draw_snake(uint32_t *buffer, snake *s) {
-    clear_buffer(buffer);
     snake *current = s;
     while (current != NULL) {
-        draw_rect(buffer, current->x, current->y, 7, 7);
+        draw_rect(buffer, current->x, current->y, 8, 8, 0x38761D);
         current = current->next;
     }
 }
@@ -70,8 +69,8 @@ void elongate(snake *head) {
     }
     
     tail->next = (snake *) malloc(sizeof(snake));
-    tail->next->x = 0;
-    tail->next->y = 0;
+    tail->next->x = -5;
+    tail->next->y = -5;
     tail->next->next = NULL;
     head->size++;
 }
