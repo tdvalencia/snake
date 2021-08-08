@@ -21,6 +21,9 @@ int main(int argc, char *args[]) {
     }
 
     int quit = 0;
+    int sleep = 0;
+    Uint32 next_game_tick = SDL_GetTicks();
+
     char dir = 'u';
     snake s = init_snake(pixels, 320, 340);
     food f = init_food(&s);
@@ -38,16 +41,16 @@ int main(int argc, char *args[]) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            dir = 'u';
+                            if (dir != 'd') {dir = 'u';}
                             break;
                         case SDLK_DOWN:
-                            dir = 'd';
+                            if (dir != 'u') {dir = 'd';}
                             break;
                         case SDLK_LEFT:
-                            dir = 'l';
+                            if (dir != 'r') {dir = 'l';}
                             break;
                         case SDLK_RIGHT:
-                            dir = 'r';
+                            if (dir != 'l') {dir = 'r';}
                             break;
                         case SDLK_e:
                             elongate(&s, 1);
@@ -57,7 +60,6 @@ int main(int argc, char *args[]) {
                             break;
                         case SDLK_SPACE:
                             f = init_food(&s);
-                            print_food(&f);
                             break;
                         default:
                             break;
@@ -69,7 +71,6 @@ int main(int argc, char *args[]) {
 
         if (dead_collision(&s) == 1) {
             dir = '\0';
-            printf("game over\n");
         }
         if (touch_food(&s, &f) == 1) {
             f = init_food(&s);
@@ -83,7 +84,14 @@ int main(int argc, char *args[]) {
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, screen, NULL, NULL);
         SDL_RenderPresent(renderer);
-        SDL_Delay(100);
+
+        next_game_tick += 1000 / 10;
+		sleep = next_game_tick - SDL_GetTicks();
+	
+		if( sleep >= 0 ) {
+            				
+			SDL_Delay(sleep);
+		}
     }
 
     close();
@@ -104,7 +112,7 @@ int init() {
         return 1;
     }
 
-    window = SDL_CreateWindow("snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    window = SDL_CreateWindow("snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
     pixels = (Uint32*) malloc((SCREEN_WIDTH * SCREEN_HEIGHT) * sizeof(Uint32));

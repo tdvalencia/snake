@@ -11,17 +11,18 @@ food init_food(snake *s) {
     food f;
     f.x = rand() % (SCREEN_WIDTH - 50) + 25;
     f.y = rand() % (SCREEN_HEIGHT - 50) + 25;
-    f.pixel_size = 5;
+    f.pixel_size = 10;
     f.color = f_colors[rand() % 4];
 
-    while (s != NULL) {
-        if (s->x == f.x && s->y == f.y) {
-            f.x = rand() % SCREEN_WIDTH;
-            f.y = rand() % SCREEN_HEIGHT;
+    snake *copy = malloc(sizeof(snake)); 
+    *copy = *s;
+    while (copy != NULL) {
+        if (copy->x == f.x && copy->y == f.y) {
+            f.x = rand() % (SCREEN_WIDTH - 50) + 25;
+            f.y = rand() % (SCREEN_WIDTH - 50) + 25;
         }
-        s = s->next;
+        copy = copy->next;
     }
-
     return f;
 }
 

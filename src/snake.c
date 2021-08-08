@@ -1,18 +1,15 @@
 #include "snake.h"
 
-#define SPEED 8
+#define SPEED 14
 
 snake init_snake(uint32_t *buffer, int start_x, int start_y) {
     snake s;
     s.x = start_x;
     s.y = start_y;
     s.size = 1;
-    s.pixel_size = 7;
+    s.pixel_size = 12;
     s.next = NULL;
-
     elongate(&s, 2);
-    draw_snake(buffer, &s);
-
     return s;
 }
 
@@ -86,14 +83,15 @@ int dead_collision(snake *s) {
         return 1;
     }
 
-    snake copy = *s;
-    snake *n = s->next;
+    snake *copy = malloc(sizeof(snake));
+    *copy = *s;
+    snake *n = copy->next;
 
     while (n != NULL) {
-        if (copy.x <= n->x + n->pixel_size &&
-            copy.x + copy.pixel_size >= n->x &&
-            copy.y <= n->y + n->pixel_size &&
-            copy.y + copy.pixel_size >= n->y) {
+        if (copy->x <= n->x + n->pixel_size &&
+            copy->x + copy->pixel_size >= n->x &&
+            copy->y <= n->y + n->pixel_size &&
+            copy->y + copy->pixel_size >= n->y) {
             return 1;
         }
         n = n->next;
