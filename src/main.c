@@ -5,6 +5,8 @@
 #include "snake.h"
 #include "food.h"
 
+#define WIN 500
+
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *screen = NULL;
@@ -40,26 +42,17 @@ int main(int argc, char *args[]) {
                     break;
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
-                        case SDLK_UP:
+                        case SDLK_w:
                             if (dir != 'd') {dir = 'u';}
                             break;
-                        case SDLK_DOWN:
+                        case SDLK_s:
                             if (dir != 'u') {dir = 'd';}
                             break;
-                        case SDLK_LEFT:
+                        case SDLK_a:
                             if (dir != 'r') {dir = 'l';}
                             break;
-                        case SDLK_RIGHT:
+                        case SDLK_d:
                             if (dir != 'l') {dir = 'r';}
-                            break;
-                        case SDLK_e:
-                            elongate(&s, 1);
-                            break;
-                        case SDLK_p:
-                            dir = '\0';
-                            break;
-                        case SDLK_SPACE:
-                            f = init_food(&s);
                             break;
                         default:
                             break;
@@ -68,9 +61,14 @@ int main(int argc, char *args[]) {
                     break;
             }
         }
-
-        if (wall_collision(&s) == 1 || self_collision(&s) == 1) {
+        if ((wall_collision(&s) == 1 || self_collision(&s) == 1)
+            && s.size != WIN) {
             dir = '\0';
+            printf("you lose\n");
+        }
+        if (s.size == WIN) {
+            dir = '\0';
+            printf("you win\n");
         }
         if (touch_food(&s, &f) == 1) {
             f = init_food(&s);
