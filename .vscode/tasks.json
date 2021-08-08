@@ -63,7 +63,9 @@
 				"-lmingw32",
 				"-lSDL2main",
 				"-lSDL2",
-				"-lSDL2_image"
+				"&&",
+				"start",
+				"bin/debug/snake"
 			],
 			"options": {
 				"cwd": "${fileDirname}/.."
@@ -73,6 +75,22 @@
 			],
 			"group": "build",
 			"detail": "compiler: C:\\mingw64\\bin\\gcc.exe"
+		},
+		{
+			"label": "Run Debug",
+			"command": "bin/debug/snake.exe",
+			"options": {
+				"cwd": "${fileDirname}/.."
+			},
+			"group": "build"
+		},
+		{
+			"label": "Run Release",
+			"command": "bin/release/snake.exe",
+			"options": {
+				"cwd": "${fileDirname}/.."
+			},
+			"group": "build"
 		}
 	]
 }

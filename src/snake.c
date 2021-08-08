@@ -75,26 +75,23 @@ void elongate(snake *head, int n) {
     printf("score: %d\n", head->size);
 }
 
-int dead_collision(snake *s) {
+int wall_collision(snake *s) {
     if (SCREEN_WIDTH < s->x + s->pixel_size ||
         SCREEN_HEIGHT < s->y + s->pixel_size ||
         0 > s->x + s->pixel_size ||
         0 > s->y + s->pixel_size) {
         return 1;
     }
+    return 0;
+}
 
-    snake *copy = malloc(sizeof(snake));
-    *copy = *s;
-    snake *n = copy->next;
-
-    while (n != NULL) {
-        if (copy->x <= n->x + n->pixel_size &&
-            copy->x + copy->pixel_size >= n->x &&
-            copy->y <= n->y + n->pixel_size &&
-            copy->y + copy->pixel_size >= n->y) {
+int self_collision(snake *s) {
+    snake copy = *s;
+    while (s->next != NULL) {
+        if (copy.x == s->next->x && copy.y == s->next->y) {
             return 1;
         }
-        n = n->next;
+        s = s->next;
     }
     return 0;
 }

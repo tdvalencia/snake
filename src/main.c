@@ -69,7 +69,7 @@ int main(int argc, char *args[]) {
             }
         }
 
-        if (dead_collision(&s) == 1) {
+        if (wall_collision(&s) == 1 || self_collision(&s) == 1) {
             dir = '\0';
         }
         if (touch_food(&s, &f) == 1) {
@@ -88,8 +88,7 @@ int main(int argc, char *args[]) {
         next_game_tick += 1000 / 10;
 		sleep = next_game_tick - SDL_GetTicks();
 	
-		if( sleep >= 0 ) {
-            				
+		if( sleep >= 0 ) {		
 			SDL_Delay(sleep);
 		}
     }
