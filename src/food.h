@@ -10,7 +10,7 @@
 
 typedef struct food {
     int x, y;
-    int side_length;
+    int pixel_size;
     uint32_t color;
 } food;
 

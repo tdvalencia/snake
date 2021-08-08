@@ -10,7 +10,7 @@
 typedef struct snake {
     int x, y;
     int size;
-    int side_length;
+    int pixel_size;
     struct snake *next;
 } snake;
 

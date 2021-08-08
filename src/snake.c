@@ -1,11 +1,13 @@
 #include "snake.h"
 
+#define SPEED 8
+
 snake init_snake(uint32_t *buffer, int start_x, int start_y) {
     snake s;
     s.x = start_x;
     s.y = start_y;
     s.size = 1;
-    s.side_length = 8;
+    s.pixel_size = 7;
     s.next = NULL;
 
     elongate(&s, 2);
@@ -22,16 +24,16 @@ void snake_move(snake *head, char dir) {
     // Updates position of the head
     switch (dir) {
         case 'u':
-            head->y -= 8;
+            head->y -= SPEED;
             break;
         case 'd':
-            head->y += 8;
+            head->y += SPEED;
             break;
         case 'l':
-            head->x -= 8;
+            head->x -= SPEED;
             break;
         case 'r':
-            head->x += 8;
+            head->x += SPEED;
             break;
         default:
             break;
@@ -54,7 +56,7 @@ void snake_move(snake *head, char dir) {
 void draw_snake(uint32_t *buffer, snake *s) {
     snake *current = s;
     while (current != NULL) {
-        draw_rect(buffer, current->x, current->y, s->side_length, s->side_length, 0x38761D);
+        draw_rect(buffer, current->x, current->y, s->pixel_size, s->pixel_size, 0x38761D);
         current = current->next;
     }
 }
@@ -77,10 +79,10 @@ void elongate(snake *head, int n) {
 }
 
 int dead_collision(snake *s) {
-    if (SCREEN_WIDTH < s->x + s->side_length ||
-        SCREEN_HEIGHT < s->y + s->side_length ||
-        0 > s->x + s->side_length ||
-        0 > s->y + s->side_length) {
+    if (SCREEN_WIDTH < s->x + s->pixel_size ||
+        SCREEN_HEIGHT < s->y + s->pixel_size ||
+        0 > s->x + s->pixel_size ||
+        0 > s->y + s->pixel_size) {
         return 1;
     }
 
@@ -88,10 +90,10 @@ int dead_collision(snake *s) {
     snake *n = s->next;
 
     while (n != NULL) {
-        if (copy.x <= n->x + n->side_length &&
-            copy.x + copy.side_length > n->x &&
-            copy.y <= n->y + n->side_length &&
-            copy.y + copy.side_length > n->y) {
+        if (copy.x <= n->x + n->pixel_size &&
+            copy.x + copy.pixel_size >= n->x &&
+            copy.y <= n->y + n->pixel_size &&
+            copy.y + copy.pixel_size >= n->y) {
             return 1;
         }
         n = n->next;

@@ -24,8 +24,6 @@ int draw_rect(uint32_t *pixel_buffer, int x, int y, int w, int h, uint32_t color
             draw_pixel(pixel_buffer, c, r, color);
         }
     }
-    draw_pixel(pixel_buffer, x, y, 0xffffff);
-
     return 0;
 }
 

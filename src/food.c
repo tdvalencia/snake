@@ -11,7 +11,7 @@ food init_food(snake *s) {
     food f;
     f.x = rand() % (SCREEN_WIDTH - 50) + 25;
     f.y = rand() % (SCREEN_HEIGHT - 50) + 25;
-    f.side_length = 6;
+    f.pixel_size = 5;
     f.color = f_colors[rand() % 4];
 
     while (s != NULL) {
@@ -26,14 +26,14 @@ food init_food(snake *s) {
 }
 
 void draw_food(uint32_t *buffer, food *f) {
-    draw_rect(buffer, f->x, f->y, f->side_length, f->side_length, f->color);
+    draw_rect(buffer, f->x, f->y, f->pixel_size, f->pixel_size, f->color);
 }
 
 int touch_food(snake *s, food *f) {
-    if (f->x < s->x + s->side_length &&
-        f->x + f->side_length > s->x &&
-        f->y < s->y + s->side_length &&
-        f->y + f->side_length > s->y) {
+    if (f->x < s->x + s->pixel_size &&
+        f->x + f->pixel_size > s->x &&
+        f->y < s->y + s->pixel_size &&
+        f->y + f->pixel_size > s->y) {
         return 1;
     }
     return 0;
