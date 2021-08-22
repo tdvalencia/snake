@@ -80,7 +80,7 @@
 			"label": "Run Debug",
 			"command": "bin/debug/snake.exe",
 			"options": {
-				"cwd": "${fileDirname}/.."
+				"cwd": "${fileDirname}"
 			},
 			"group": "build"
 		},
@@ -88,7 +88,7 @@
 			"label": "Run Release",
 			"command": "bin/release/snake.exe",
 			"options": {
-				"cwd": "${fileDirname}/.."
+				"cwd": "${fileDirname}"
 			},
 			"group": "build"
 		}
